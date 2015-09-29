@@ -19,10 +19,9 @@ describe('spatial feature', function () {
           marker: Fixtures.point
         })
         .then(function (model) {
-          console.log('model', model);
+          //console.log('model', model);
           assert(_.isObject(model.marker));
-          assert.equal(model.marker.type, 'Feature');
-          assert.equal(model.marker.geometry.type, 'Point');
+          assert.equal(model.marker.type, 'Point');
           assert(model.id);
 
           done();
@@ -41,6 +40,21 @@ describe('spatial feature', function () {
     })
   });
 
+  describe('#procedure()', function () {
+    
+    describe('#Find_SRID', function () {
+      it('should return the srid of a column', function () {
+        //console.log(Adapter)
+        return Adapter.procedure('geoConnection', 'Find_SRID', [ 'public', 'geomodelTable', 'marker' ])
+          .then(function (srid) {
+            console.log('srid', srid);
+            assert(srid);
+          });
+      });
+    });
+
+  });
+
   before(function(done) {
     waterline = new Waterline();
     waterline.loadCollection(Models);
@@ -56,6 +70,7 @@ describe('spatial feature', function () {
   });
   after(function(done) {
     done()
+      /*
     if(!Adapter.hasOwnProperty('drop')) {
       waterline.teardown(done);
       done()
@@ -67,6 +82,7 @@ describe('spatial feature', function () {
         });
       });
     }
+    */
   });
 
 });;
