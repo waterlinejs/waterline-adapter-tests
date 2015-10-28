@@ -20,6 +20,7 @@ describe('Queryable Interface', function() {
           first_name: 'sum_user' + i,
           type: 'sum test',
           age: i,
+          ageInYears: i,
           percent: i/2
         });
       }
@@ -38,6 +39,14 @@ describe('Queryable Interface', function() {
       Queryable.User.find({ where:{type: 'sum test'}, sum: ['age'] }, function(err, summed) {
         assert(!err);
         assert.strictEqual(summed[0].age, 45);
+        done();
+      });
+    });
+
+    it('should sum by key and only return that key with the sum value - mixed case attribute', function(done) {
+      Queryable.User.find({ where:{type: 'sum test'}, sum: ['ageInYears'] }, function(err, summed) {
+        assert(!err);
+        assert.strictEqual(summed[0].ageInYears, 45);
         done();
       });
     });
