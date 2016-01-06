@@ -20,6 +20,7 @@ describe('Queryable Interface', function() {
           first_name: 'min_user' + i,
           type: 'min test',
           age: -i,
+          ageInYears: -i,
           percent: -i/2
         });
       }
@@ -38,6 +39,14 @@ describe('Queryable Interface', function() {
       Queryable.User.find({ where:{type: 'min test'}, min: ['age'] }, function(err, summed) {
         assert(!err);
         assert.strictEqual(summed[0].age, -9);
+        done();
+      });
+    });
+
+    it('should get the minimum of the key - mixed case attribute', function(done) {
+      Queryable.User.find({ where:{type: 'min test'}, min: ['ageInYears'] }, function(err, summed) {
+        assert(!err);
+        assert.strictEqual(summed[0].ageInYears, -9);
         done();
       });
     });

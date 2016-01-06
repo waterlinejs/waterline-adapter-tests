@@ -20,6 +20,7 @@ describe('Queryable Interface', function() {
           first_name: 'average_user' + i,
           type: 'average test',
           age: i,
+          ageInYears: i,
           percent: i/2
         });
       }
@@ -38,6 +39,14 @@ describe('Queryable Interface', function() {
       Queryable.User.find({ where:{type: 'average test'}, average: ['age'] }, function(err, averages) {
         assert(!err,err);
         assert.strictEqual(averages[0].age, 4.5, 'expected averages[0].age to === 4.5, instead averages ==='+require('util').inspect(averages, false, null));
+        done();
+      });
+    });
+
+    it('should average by key and only return that key with the average value - mixed case attribute', function(done) {
+      Queryable.User.find({ where:{type: 'average test'}, average: ['ageInYears'] }, function(err, averages) {
+        assert(!err,err);
+        assert.strictEqual(averages[0].ageInYears, 4.5, 'expected averages[0].ageInYears to === 4.5, instead averages ==='+require('util').inspect(averages, false, null));
         done();
       });
     });

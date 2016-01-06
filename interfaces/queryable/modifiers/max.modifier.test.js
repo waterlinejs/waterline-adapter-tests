@@ -20,6 +20,7 @@ describe('Queryable Interface', function() {
           first_name: 'max_user' + i,
           type: 'max test',
           age: i + 9001,
+          ageInYears: i + 9001,
           percent: i/2 + 9001
         });
       }
@@ -38,6 +39,14 @@ describe('Queryable Interface', function() {
       Queryable.User.find({where:{type: 'max test'}, max: ['age'] }, function(err, summed) {
         assert(!err);
         assert.strictEqual(summed[0].age, 9010);
+        done();
+      });
+    });
+
+    it('should get the maximum of the key - mixed case attribute', function(done) {
+      Queryable.User.find({where:{type: 'max test'}, max: ['ageInYears'] }, function(err, summed) {
+        assert(!err);
+        assert.strictEqual(summed[0].ageInYears, 9010);
         done();
       });
     });
